@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.howie.crm.workbench.dao.ClueActivityRelationDao">
+    <!--1.根据线索id，查询关联的市场活动信息-->
+    <select id="getActivityListByClueId" parameterType="String" resultType="Activity">
+        select
+            c.id as id,
+            a.name,
+            a.startDate,
+            a.endDate,
+            u.name as owner
+        from tbl_activity a
+        join tbl_user u on a.owner = u.id
+        join tbl_clue_activity_relation c on a.id = c.activityId
+        where c.clueId = #{clueId}
+    </select>
+
+    <!--2.根据id，删除记录-->
+    <delete id="unbund" parameterType="String">
+        delete from tbl_clue_activity_relation where id = #{id};
+    </delete>
+
+    <!--3.添加记录-->
+    <insert id="bund" parameterType="ClueActivityRelation">
+        insert into tbl_clue_activity_relation(id,clueId,activityId) values
+        (#{id},#{clueId},#{activityId});
+    </insert>
+
+    <!--4.根据线索id，获取关联的记录-->
+    <select id="getListByClueId" parameterType="String" resultType="ClueActivityRelation">
+        select * from tbl_clue_activity_relation where clueId=#{clueId}
+    </select>
+
+    <!--5.根据id，删除记录-->
+    <delete id="delete" parameterType="String">
+        delete from tbl_clue_activity_relation where id=#{id}
+    </delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

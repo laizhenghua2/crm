@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置命名空间，区分不同的Mapper映射文件-->
+<mapper namespace="com.howie.crm.workbench.dao.ActivityRemarkDao">
+    <!--1.根据市场活动id，查询备注市场活动信息-->
+    <select id="getCountByAids" resultType="int">
+        select count(*) from tbl_activity_remark where activityId in
+        <!--activityId in (xxxx,xxxxx)-->
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--2.根据市场活动id，删除备注市场活动信息-->
+    <delete id="deleteByAids">
+        delete
+        from tbl_activity_remark where activityId in
+        <!--activityId in (xxxx,xxxxx)-->
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--3.根据市场活动id，获取市场活动备注信息-->
+    <select id="getRemarkListByAid" parameterType="String" resultType="ActivityRemark">
+        select * from tbl_activity_remark where activityId = #{id};
+    </select>
+
+    <!--4.根据id删除，备注活动-->
+    <delete id="deleteRemark" parameterType="String">
+        delete from tbl_activity_remark where id = #{id};
+    </delete>
+
+    <!--5.添加市场备注信息-->
+    <insert id="saveRemark" parameterType="ActivityRemark">
+        insert into tbl_activity_remark(
+            id,
+            noteContent,
+            createTime,
+            createBy,
+            editFlag,
+            activityId
+        ) values(
+            #{id},
+            #{noteContent},
+            #{createTime},
+            #{createBy},
+            #{editFlag},
+            #{activityId}
+        )
+    </insert>
+
+    <!--6.更新市场备注信息-->
+    <update id="updateRemark" parameterType="ActivityRemark">
+        update tbl_activity_remark set
+            noteContent = #{noteContent},
+            editTime = #{editTime},
+            editBy = #{editBy},
+            editFlag = #{editFlag}
+        where id = #{id};
+    </update>
+</mapper>

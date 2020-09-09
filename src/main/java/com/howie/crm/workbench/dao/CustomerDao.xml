@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.howie.crm.workbench.dao.CustomerDao">
+	<!--1.根据公司名，查询客户-->
+  	<select id="getCustomerByName" parameterType="String" resultType="Customer">
+        select * from tbl_customer where name=#{name}
+    </select>
+    <!--2.根据客户对象，保存客户信息-->
+    <insert id="save" parameterType="Customer">
+        insert into tbl_customer(
+        id,
+        owner,
+        name,
+        website,
+        phone,
+        createBy,
+        createTime,
+        contactSummary,
+        nextContactTime,
+        description,
+        address
+        ) values(
+        #{id},
+        #{owner},
+        #{name},
+        #{website},
+        #{phone},
+        #{createBy},
+        #{createTime},
+        #{contactSummary},
+        #{nextContactTime},
+        #{description},
+        #{address}
+        )
+    </insert>
+
+    <!--3.根据客户名称，进行模糊查询-->
+    <select id="getCustomerName" parameterType="String" resultType="String">
+        select name from tbl_customer where name like '%' #{name} '%'
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
